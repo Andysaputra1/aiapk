@@ -1,6 +1,6 @@
-import { Navbar } from './component/Navbar/Navbar';
-import { AiWorkspace } from './component/AiWorkspace/AiWorkspace';
-import { Footer } from './component/Footer/Footer';
+import { Navbar } from './components/Navbar/Navbar';
+import { AiWorkspace } from './pages/AiWorkspace/AiWorkspace';
+import { Footer } from './components/Footer/Footer';
 import './App.css'; 
 
 function App() {

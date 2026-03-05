@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import './LogViewer.css';
+import type { LogViewerProps } from '../../types/workspaces'; 
 
 // Kita siapkan 'props' agar komponen ini bisa menerima data kode dari luar
-interface LogViewerProps {
-    logCode: string;
-}
+
 
 export const LogViewer: React.FC<LogViewerProps> = ({ logCode }) => {
     const [isOpen, setIsOpen] = useState(false);

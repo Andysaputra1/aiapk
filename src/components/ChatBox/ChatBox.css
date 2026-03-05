@@ -24,6 +24,9 @@
     border-radius: 8px;
     max-width: 85%;
     font-size: 0.95rem;
+    white-space: pre-wrap; /* INI KUNCINYA: Membaca \n sebagai enter */
+    line-height: 1.6; /* Biar jarak antar barisnya lebih enak dibaca */
+    word-wrap: break-word; /* Biar kalau ada teks panjang nggak tembus ke luar kotak */
 }
 
 .bubble-ai {

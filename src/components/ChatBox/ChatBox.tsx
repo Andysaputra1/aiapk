@@ -1,26 +1,21 @@
 import React from 'react';
 import './ChatBox.css';
 import { LogViewer } from '../LogViewer/LogViewer';
-
-interface ChatBoxProps {
-    input: string;
-    setInput: (val: string) => void;
-    onSend: () => void;
-    jawaban: string;
-    logKode: string;
-    loading: boolean;
-}
+import type { ChatBoxProps } from '../../types/workspaces';
+import ReactMarkdown from 'react-markdown';
 
 export const ChatBox: React.FC<ChatBoxProps> = ({ input, setInput, onSend, jawaban, logKode, loading }) => {
     return (
         <div className="chat-container">
             <div className="chat-history">
                 <div className="chat-bubble bubble-ai">
-                    <strong>🤖 Agent SCM:</strong><br/>
+                    <strong> Agent :</strong><br/>
                     {loading ? (
                         <span className="text-muted"><i className="fas fa-cog fa-spin me-2"></i> Sedang memproses data...</span>
                     ) : (
-                        jawaban || "Sistem siap. Silakan unggah file dan ajukan pertanyaan."
+                        <ReactMarkdown>
+                            {jawaban || "Sistem siap. Silakan unggah file dan ajukan pertanyaan."}
+                        </ReactMarkdown>
                     )}
                     
                     {/* Tampilkan LogViewer jika ada kode */}
@@ -36,6 +31,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ input, setInput, onSend, jawab
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     disabled={loading}
+                    onKeyDown={(e) => e.key === 'Enter' && !loading && onSend()}
                 />
                 <button className="chat-send-btn" onClick={onSend} disabled={loading}>
                     <i className={loading ? "fas fa-spinner fa-spin" : "fas fa-paper-plane"}></i>
