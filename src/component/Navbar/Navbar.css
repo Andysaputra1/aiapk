@@ -1,0 +1,45 @@
+/* src/component/Navbar/Navbar.css */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  height: 65px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-bottom: 3px solid #e4002b; 
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px; 
+}
+
+.navbar-logo {
+  height: 20px; 
+  width: auto;
+}
+
+.navbar-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: 0.5px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-user-icon {
+  font-size: 1.6rem;
+  color: #6c757d;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.navbar-user-icon:hover {
+  color: #e4002b; 
+}

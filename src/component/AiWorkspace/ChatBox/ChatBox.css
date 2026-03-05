@@ -1,0 +1,73 @@
+/* src/component/ChatBox/ChatBox.css */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.chat-history {
+    flex: 1;
+    background-color: #fafafa;
+    padding: 20px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+.chat-bubble {
+    padding: 12px 18px;
+    border-radius: 8px;
+    max-width: 85%;
+    font-size: 0.95rem;
+}
+
+.bubble-ai {
+    background-color: #ffffff;
+    border-left: 4px solid #e4002b;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    align-self: flex-start;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 15px;
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.chat-input:focus {
+    border-color: #e4002b;
+}
+
+.chat-send-btn {
+    background-color: #e4002b;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.chat-send-btn:hover {
+    background-color: #cc0026;
+}
