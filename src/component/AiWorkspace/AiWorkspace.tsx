@@ -70,7 +70,10 @@ export const AiWorkspace: React.FC = () => {
                 <div className="workspace-content">
                     {/* Kirim fungsi setFiles agar bisa dipakai UploadForm */}
                     <div className="workspace-left">
-                        <UploadForm onFileChange={(e) => setFiles(e.target.files)} />
+                        <UploadForm 
+                        files={files} 
+                        onFileChange={(e) => setFiles(e.target.files)} 
+                    />
                     </div>
 
                     {/* Kirim state dan fungsi handle ke ChatBox */}

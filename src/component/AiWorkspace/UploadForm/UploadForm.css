@@ -56,3 +56,8 @@
     text-align: left;
     margin-top: 10px;
 }
+
+.upload-box.active {
+    border-color: #28a745; /* Warna hijau sukses */
+    background-color: #f4fff6;
+}
