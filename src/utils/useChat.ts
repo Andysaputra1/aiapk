@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Hook ini menerima parameter 'files' dari luar agar bisa ikut dikirim ke API
 export const useChat = (files: FileList | null) => {
-    const [pertanyaan, setPertanyaan] = useState('');
-    const [jawaban, setJawaban] = useState('');
-    const [logKode, setLogKode] = useState('');
+    // 1. Ubah inisialisasi useState agar membaca dari localStorage (memori browser) terlebih dahulu
+    const [pertanyaan, setPertanyaan] = useState(() => localStorage.getItem('last_pertanyaan') || '');
+    const [jawaban, setJawaban] = useState(() => localStorage.getItem('last_jawaban') || '');
+    const [logKode, setLogKode] = useState(() => localStorage.getItem('last_logKode') || '');
+    
     const [isLoading, setIsLoading] = useState(false);
+
+    // 2. Gunakan useEffect: Setiap kali jawaban/logKode berubah, otomatis simpan ke memori browser
+    useEffect(() => {
+        localStorage.setItem('last_pertanyaan', pertanyaan);
+        localStorage.setItem('last_jawaban', jawaban);
+        localStorage.setItem('last_logKode', logKode);
+    }, [pertanyaan, jawaban, logKode]);
 
     const handleSendToAI = async () => {
         if (!files || files.length < 5) {
@@ -18,6 +27,7 @@ export const useChat = (files: FileList | null) => {
         }
 
         setIsLoading(true);
+        // Jangan reset pertanyaan di sini, supaya user masih bisa lihat apa yang dia ketik
         setJawaban('');
         setLogKode('');
 
@@ -50,12 +60,25 @@ export const useChat = (files: FileList | null) => {
         }
     };
 
+    // 3. (Opsional) Fungsi untuk menghapus percakapan dari layar dan memori
+    const clearChat = () => {
+        if (window.confirm("Apakah Anda yakin ingin menghapus obrolan ini?")) {
+            setPertanyaan('');
+            setJawaban('');
+            setLogKode('');
+            localStorage.removeItem('last_pertanyaan');
+            localStorage.removeItem('last_jawaban');
+            localStorage.removeItem('last_logKode');
+        }
+    };
+
     return {
         pertanyaan,
         setPertanyaan,
         jawaban,
         logKode,
         isLoading,
-        handleSendToAI
+        handleSendToAI,
+        clearChat // Ekspor clearChat agar bisa dipasang di tombol "Hapus/Trash" nanti
     };
 };
