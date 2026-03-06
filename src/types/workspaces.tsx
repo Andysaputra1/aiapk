@@ -14,6 +14,7 @@ export interface ChatBoxProps {
     jawaban: string;
     logKode: string;
     loading: boolean;
+    onClear: ()=> void;
 }
 
 // Props untuk LogViewer

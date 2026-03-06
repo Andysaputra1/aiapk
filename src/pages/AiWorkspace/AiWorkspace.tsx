@@ -17,7 +17,8 @@ export const AiWorkspace: React.FC = () => {
         jawaban, 
         logKode, 
         isLoading, 
-        handleSendToAI 
+        handleSendToAI,
+        clearChat 
     } = useChat(files); // Lempar files ke useChat agar bisa divalidasi dan dikirim ke API
 
     return (
@@ -48,6 +49,7 @@ export const AiWorkspace: React.FC = () => {
                             jawaban={jawaban}
                             logKode={logKode}
                             loading={isLoading}
+                            onClear={clearChat}
                         />
                     </div>
                 </div>

@@ -4,7 +4,7 @@ import { LogViewer } from '../LogViewer/LogViewer';
 import type { ChatBoxProps } from '../../types/workspaces';
 import ReactMarkdown from 'react-markdown';
 
-export const ChatBox: React.FC<ChatBoxProps> = ({ input, setInput, onSend, jawaban, logKode, loading }) => {
+export const ChatBox: React.FC<ChatBoxProps> = ({ input, setInput, onSend, jawaban, logKode, loading, onClear}) => {
     return (
         <div className="chat-container">
             <div className="chat-history">
@@ -35,6 +35,16 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ input, setInput, onSend, jawab
                 />
                 <button className="chat-send-btn" onClick={onSend} disabled={loading}>
                     <i className={loading ? "fas fa-spinner fa-spin" : "fas fa-paper-plane"}></i>
+                </button>
+
+                <button 
+                    className="chat-send-btn" 
+                    onClick={onClear} 
+                    disabled={loading}
+                    title="Hapus Obrolan"
+                    style={{ backgroundColor: '#dc3545', marginLeft: '8px' }}
+                >
+                    <i className="fas fa-trash"></i>
                 </button>
             </div>
         </div>
