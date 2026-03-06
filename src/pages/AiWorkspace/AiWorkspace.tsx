@@ -14,8 +14,7 @@ export const AiWorkspace: React.FC = () => {
     const { 
         pertanyaan, 
         setPertanyaan, 
-        jawaban, 
-        logKode, 
+        messages, // <--- 1. UBAH INI: Ganti jawaban & logKode menjadi messages
         isLoading, 
         handleSendToAI,
         clearChat 
@@ -46,8 +45,7 @@ export const AiWorkspace: React.FC = () => {
                             input={pertanyaan}
                             setInput={setPertanyaan}
                             onSend={handleSendToAI}
-                            jawaban={jawaban}
-                            logKode={logKode}
+                            messages={messages} // <--- 2. UBAH INI: Kirim messages ke ChatBox
                             loading={isLoading}
                             onClear={clearChat}
                         />

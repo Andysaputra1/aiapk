@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
+import type { Message } from '../types/workspaces';
 
-// Hook ini menerima parameter 'files' dari luar agar bisa ikut dikirim ke API
 export const useChat = (files: FileList | null) => {
-    // 1. Ubah inisialisasi useState agar membaca dari localStorage (memori browser) terlebih dahulu
-    const [pertanyaan, setPertanyaan] = useState(() => localStorage.getItem('last_pertanyaan') || '');
-    const [jawaban, setJawaban] = useState(() => localStorage.getItem('last_jawaban') || '');
-    const [logKode, setLogKode] = useState(() => localStorage.getItem('last_logKode') || '');
+    const [pertanyaan, setPertanyaan] = useState('');
+    
+    // 1. GANTI jawaban & logKode tunggal menjadi array messages
+    const [messages, setMessages] = useState<Message[]>(() => {
+        const saved = localStorage.getItem('chat_history');
+        return saved ? JSON.parse(saved) : [];
+    });
     
     const [isLoading, setIsLoading] = useState(false);
 
-    // 2. Gunakan useEffect: Setiap kali jawaban/logKode berubah, otomatis simpan ke memori browser
+    // 2. Simpan seluruh array messages ke localStorage setiap kali ada perubahan
     useEffect(() => {
-        localStorage.setItem('last_pertanyaan', pertanyaan);
-        localStorage.setItem('last_jawaban', jawaban);
-        localStorage.setItem('last_logKode', logKode);
-    }, [pertanyaan, jawaban, logKode]);
+        localStorage.setItem('chat_history', JSON.stringify(messages));
+    }, [messages]);
 
     const handleSendToAI = async () => {
         if (!files || files.length < 5) {
@@ -26,13 +27,16 @@ export const useChat = (files: FileList | null) => {
             return;
         }
 
+        const userQuery = pertanyaan;
+        setPertanyaan(''); // Kosongkan inputField segera setelah kirim
         setIsLoading(true);
-        // Jangan reset pertanyaan di sini, supaya user masih bisa lihat apa yang dia ketik
-        setJawaban('');
-        setLogKode('');
+
+        // 3. Tambahkan pertanyaan user ke dalam daftar pesan (UI langsung update)
+        const userMessage: Message = { sender: 'user', text: userQuery };
+        setMessages(prev => [...prev, userMessage]);
 
         const formData = new FormData();
-        formData.append("pertanyaan", pertanyaan);
+        formData.append("pertanyaan", userQuery);
         
         for (let i = 0; i < files.length; i++) {
             formData.append("files_csv", files[i]);
@@ -47,38 +51,39 @@ export const useChat = (files: FileList | null) => {
             const data = await response.json();
 
             if (data.status === "success") {
-                setJawaban(data.jawaban);
-                setLogKode(data.log_kode);
+                // 4. Tambahkan jawaban AI dan log kodenya ke dalam daftar pesan
+                const aiMessage: Message = { 
+                    sender: 'ai', 
+                    text: data.jawaban, 
+                    logCode: data.log_kode 
+                };
+                setMessages(prev => [...prev, aiMessage]);
             } else {
-                setJawaban("Maaf, terjadi kesalahan pada pemrosesan AI.");
+                setMessages(prev => [...prev, { sender: 'ai', text: "Maaf, terjadi kesalahan pada pemrosesan AI." }]);
             }
         } catch (error) {
             console.error("Error API:", error);
-            setJawaban("Gagal terhubung ke server. Pastikan Backend (FastAPI) sudah menyala.");
+            setMessages(prev => [...prev, { sender: 'ai', text: "Gagal terhubung ke server. Pastikan Backend menyala." }]);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // 3. (Opsional) Fungsi untuk menghapus percakapan dari layar dan memori
+    // 5. Update fungsi clearChat untuk menghapus seluruh array history
     const clearChat = () => {
-        if (window.confirm("Apakah Anda yakin ingin menghapus obrolan ini?")) {
+        if (window.confirm("Apakah Anda yakin ingin menghapus seluruh riwayat obrolan?")) {
             setPertanyaan('');
-            setJawaban('');
-            setLogKode('');
-            localStorage.removeItem('last_pertanyaan');
-            localStorage.removeItem('last_jawaban');
-            localStorage.removeItem('last_logKode');
+            setMessages([]);
+            localStorage.removeItem('chat_history');
         }
     };
 
     return {
         pertanyaan,
         setPertanyaan,
-        jawaban,
-        logKode,
+        messages, // <--- Kembalikan messages (array), bukan lagi jawaban/logKode tunggal
         isLoading,
         handleSendToAI,
-        clearChat // Ekspor clearChat agar bisa dipasang di tombol "Hapus/Trash" nanti
+        clearChat
     };
 };

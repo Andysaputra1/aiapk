@@ -1,5 +1,11 @@
 import React from 'react';
 
+export interface Message {
+    sender: 'user' | 'ai';
+    text: string;
+    logCode?: string;
+}
+
 // Props untuk UploadForm
 export interface UploadFormProps {
     onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,8 +17,7 @@ export interface ChatBoxProps {
     input: string;
     setInput: (val: string) => void;
     onSend: () => void;
-    jawaban: string;
-    logKode: string;
+    messages: Message[]
     loading: boolean;
     onClear: ()=> void;
 }

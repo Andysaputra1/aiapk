@@ -1,26 +1,58 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './ChatBox.css';
 import { LogViewer } from '../LogViewer/LogViewer';
 import type { ChatBoxProps } from '../../types/workspaces';
 import ReactMarkdown from 'react-markdown';
 
-export const ChatBox: React.FC<ChatBoxProps> = ({ input, setInput, onSend, jawaban, logKode, loading, onClear}) => {
+export const ChatBox: React.FC<ChatBoxProps> = ({ input, setInput, onSend, messages, loading, onClear }) => {
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // Fungsi agar otomatis scroll ke paling bawah setiap ada pesan baru
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages, loading]);
+
     return (
         <div className="chat-container">
             <div className="chat-history">
-                <div className="chat-bubble bubble-ai">
-                    <strong> Agent :</strong><br/>
-                    {loading ? (
-                        <span className="text-muted"><i className="fas fa-cog fa-spin me-2"></i> Sedang memproses data...</span>
-                    ) : (
+                {/* 1. Jika tidak ada pesan, tampilkan pesan selamat datang */}
+                {messages.length === 0 && !loading && (
+                    <div className="chat-empty">
+                        Sistem siap. Silakan unggah file dan ajukan pertanyaan.
+                    </div>
+                )}
+
+                {/* 2. LOOPING: Tampilkan semua pesan dari riwayat */}
+                {messages.map((msg, index) => (
+                    <div key={index} className={`chat-bubble bubble-${msg.sender}`}>
+                        <strong>{msg.sender === 'user' ? 'Anda' : 'Agent'} :</strong><br/>
                         <ReactMarkdown>
-                            {jawaban || "Sistem siap. Silakan unggah file dan ajukan pertanyaan."}
+                            {msg.text}
                         </ReactMarkdown>
-                    )}
-                    
-                    {/* Tampilkan LogViewer jika ada kode */}
-                    <LogViewer logCode={logKode} />
-                </div>
+                        
+                        {/* Tampilkan LogViewer hanya di pesan AI yang memiliki kode */}
+                        {msg.sender === 'ai' && msg.logCode && (
+                            <LogViewer logCode={msg.logCode} />
+                        )}
+                    </div>
+                ))}
+
+                {/* 3. Tampilkan bubble loading jika sedang menunggu jawaban AI */}
+                {loading && (
+                    <div className="chat-bubble bubble-ai">
+                        <strong> Agent :</strong><br/>
+                        <span className="text-muted">
+                            <i className="fas fa-cog fa-spin me-2"></i> Sedang memproses data...
+                        </span>
+                    </div>
+                )}
+
+                {/* 4. Elemen bantu untuk target scroll otomatis */}
+                <div ref={messagesEndRef} />
             </div>
 
             <div className="chat-input-area">

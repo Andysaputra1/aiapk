@@ -74,3 +74,35 @@
 .chat-send-btn:hover {
     background-color: #cc0026;
 }
+
+.chat-history {
+    flex: 1;
+    overflow-y: auto; /* Mengaktifkan scroll vertikal */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #f9f9f9;
+    max-height: 500px; /* Tentukan tinggi maksimal */
+}
+
+.chat-bubble {
+    padding: 12px 16px;
+    border-radius: 12px;
+    max-width: 85%;
+    line-height: 1.5;
+}
+
+.bubble-user {
+    align-self: flex-end; /* Chat Anda di sebelah kanan */
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+.bubble-ai {
+    align-self: flex-start; /* Chat Agent di sebelah kiri */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-bottom-left-radius: 2px;
+}
