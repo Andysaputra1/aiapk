@@ -8,7 +8,8 @@ import { useFileUpload } from '../../utils/useFileUpload';
 import { useChat } from '../../utils/useChat';
 
 export const AiWorkspace: React.FC = () => {
-    // Panggil logika dari Hooks
+    
+    // Panggil logika dari utils
     const { files, handleFileChange } = useFileUpload();
     const { 
         pertanyaan, 
