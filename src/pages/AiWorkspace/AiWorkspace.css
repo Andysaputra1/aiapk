@@ -1,22 +1,27 @@
-/* src/component/AiWorkspace/AiWorkspace.css */
+/* src/pages/AiWorkspace/AiWorkspace.css */
 
 .main-content {
   flex: 1;
   display: flex;
   justify-content: center;
-  padding: 30px 20px;
+  padding: 10px 20px;
 }
 
+/* 1. CONTAINER UTAMA (Digabung & Dikunci Tingginya) */
 .workspace-container {
   background-color: #ffffff;
   width: 100%;
   max-width: 1000px;
+  height: calc(100vh - 195px); /* Kunci tinggi seukuran layar minus navbar/footer */
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 30px;
+  padding: 18px 26px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
+  overflow: hidden; /* Mencegah layar utama bisa di-scroll */
+  margin: auto;
+  
 }
 
 .workspace-header {
@@ -35,6 +40,34 @@
   font-size: 0.95rem;
 }
 
+/* 2. AREA KONTEN TENGAH (Digabung) */
+.workspace-content {
+  display: flex;
+  flex: 1;
+  gap: 30px;
+  margin-top: 10px;
+  height: 100%; 
+  overflow: hidden; /* Kunci agar isi di dalamnya tidak tumpah */
+}
+
+/* 3. AREA KIRI (Form Upload) */
+.workspace-left {
+  flex: 1; 
+  min-width: 250px;
+  border-right: 2px dashed #f0f0f0;
+  padding-right: 30px;
+  overflow-y: auto; /* Tambahan: Biar kalau list file upload panjang, dia bisa discroll terpisah */
+}
+
+/* 4. AREA KANAN (ChatBox) */
+.workspace-right {
+  flex: 2; /* Biarkan porsi chat lebih lebar */
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Wajib 100% agar chatbox bisa menyesuaikan diri */
+}
+
 .workspace-placeholder {
   padding: 40px;
   text-align: center;
@@ -43,37 +76,17 @@
   color: #888;
 }
 
-/* TAMBAHAN UNTUK MEMBELAH AREA KERJA */
-
-.workspace-content {
-  display: flex;
-  gap: 30px;
-  margin-top: 10px;
-}
-
-.workspace-left {
-  flex: 1; /* Porsi lebih kecil */
-  min-width: 250px;
-  border-right: 2px dashed #f0f0f0;
-  padding-right: 30px;
-}
-
-.workspace-right {
-  flex: 2; /* Porsi lebih besar */
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Responsif: Kalau layarnya kecil (HP/Tablet), dia turun ke bawah */
+/* Responsif untuk HP/Tablet */
 @media (max-width: 768px) {
   .workspace-content {
     flex-direction: column;
+    overflow-y: auto; /* Di HP biarkan bisa discroll normal */
   }
   .workspace-left {
     border-right: none;
     border-bottom: 2px dashed #f0f0f0;
     padding-right: 0;
     padding-bottom: 30px;
+    overflow-y: visible;
   }
 }

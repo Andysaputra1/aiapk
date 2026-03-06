@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Message } from '../types/workspaces';
 
+
 export const useChat = (files: FileList | null) => {
     const [pertanyaan, setPertanyaan] = useState('');
     
@@ -43,7 +44,9 @@ export const useChat = (files: FileList | null) => {
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/chat", {
+            const API_URL = import.meta.env.VITE_API_URL;
+
+            const response = await fetch(`${API_URL}/api/chat`, {
                 method: "POST",
                 body: formData,
             });

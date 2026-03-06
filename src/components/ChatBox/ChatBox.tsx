@@ -27,7 +27,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ input, setInput, onSend, messa
                 )}
 
                 {/* 2. LOOPING: Tampilkan semua pesan dari riwayat */}
-                {messages.map((msg, index) => (
+                {messages?.map((msg, index) => (
                     <div key={index} className={`chat-bubble bubble-${msg.sender}`}>
                         <strong>{msg.sender === 'user' ? 'Anda' : 'Agent'} :</strong><br/>
                         <ReactMarkdown>

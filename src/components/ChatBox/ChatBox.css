@@ -1,45 +1,69 @@
-/* src/component/ChatBox/ChatBox.css */
+/* src/components/ChatBox/ChatBox.css */
+
+/* 1. KONTAINER UTAMA CHAT (Fixed Height 100%) */
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100%; /* Mengikuti tinggi dari workspace-right */
+    background-color: #ffffff;
+    border-radius: 12px;
     border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
+    overflow: hidden; 
 }
 
+/* 2. AREA RIWAYAT OBROLAN (Bisa Di-scroll) */
 .chat-history {
-    flex: 1;
-    background-color: #fafafa;
+    flex: 1; /* Mengambil seluruh sisa ruang tengah */
+    overflow-y: auto; /* Memunculkan scrollbar di area ini saja */
     padding: 20px;
-    min-height: 300px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    overflow-y: auto;
+    background-color: #fafafa;
 }
 
+/* Pesan kosong / placeholder */
+.chat-empty {
+    text-align: center;
+    color: #888;
+    margin: auto; /* Posisi di tengah secara vertikal dan horizontal */
+}
+
+/* 3. BALON OBROLAN (Bubble) */
 .chat-bubble {
     padding: 12px 18px;
-    border-radius: 8px;
+    border-radius: 12px;
     max-width: 85%;
     font-size: 0.95rem;
-    white-space: pre-wrap; /* INI KUNCINYA: Membaca \n sebagai enter */
-    line-height: 1.6; /* Biar jarak antar barisnya lebih enak dibaca */
-    word-wrap: break-word; /* Biar kalau ada teks panjang nggak tembus ke luar kotak */
-}
-
-.bubble-ai {
-    background-color: #ffffff;
-    border-left: 4px solid #e4002b;
+    white-space: pre-wrap; /* Membaca \n sebagai enter */
+    line-height: 1.6; /* Jarak antar baris */
+    word-wrap: break-word; /* Teks tidak keluar kotak */
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    align-self: flex-start;
 }
 
+/* Gaya khusus chat milik USER (Biru, di Kanan) */
+.bubble-user {
+    align-self: flex-end;
+    background-color: #e4002b; /* Mengikuti warna Polytron Red */
+    color: white;
+    border-bottom-right-radius: 2px; /* Sudut lancip di kanan bawah */
+}
+
+/* Gaya khusus chat milik AI (Putih, di Kiri) */
+.bubble-ai {
+    align-self: flex-start;
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #e4002b; /* Garis aksen merah Polytron */
+    border-bottom-left-radius: 2px; /* Sudut lancip di kiri bawah */
+}
+
+/* 4. AREA INPUT (Fixed di Bawah) */
 .chat-input-area {
     display: flex;
     padding: 15px;
-    background-color: #ffffff;
+    background-color: #f8f9fa;
     border-top: 1px solid #e0e0e0;
     gap: 10px;
 }
@@ -57,6 +81,7 @@
     border-color: #e4002b;
 }
 
+/* 5. TOMBOL AKSI */
 .chat-send-btn {
     background-color: #e4002b;
     color: white;
@@ -75,34 +100,7 @@
     background-color: #cc0026;
 }
 
-.chat-history {
-    flex: 1;
-    overflow-y: auto; /* Mengaktifkan scroll vertikal */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    background-color: #f9f9f9;
-    max-height: 500px; /* Tentukan tinggi maksimal */
-}
-
-.chat-bubble {
-    padding: 12px 16px;
-    border-radius: 12px;
-    max-width: 85%;
-    line-height: 1.5;
-}
-
-.bubble-user {
-    align-self: flex-end; /* Chat Anda di sebelah kanan */
-    background-color: #007bff;
-    color: white;
-    border-bottom-right-radius: 2px;
-}
-
-.bubble-ai {
-    align-self: flex-start; /* Chat Agent di sebelah kiri */
-    background-color: white;
-    border: 1px solid #ddd;
-    border-bottom-left-radius: 2px;
+.chat-send-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
